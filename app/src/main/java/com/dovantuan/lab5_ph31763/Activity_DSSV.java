@@ -47,6 +47,21 @@ public class Activity_DSSV extends AppCompatActivity {
                             listSv.add(new ListDssv(branch, name, address));
                             adapterSv.notifyDataSetChanged();
                         }
+//                        if (result.getResultCode() == Activity.RESULT_OK) {
+//                            Intent intent = result.getData();
+//                            Bundle bundle = intent.getExtras();
+//                            String name = bundle.getString("name");
+//                            String address = bundle.getString("address");
+//                            String branch = bundle.getString("branch");
+//                            int position = bundle.getInt("position", -1);
+//                            if (position != -1) {
+//                                ListDssv updatedStudent = listSv.get(position);
+//                                updatedStudent.setBranch(branch);
+//                                updatedStudent.setName(name);
+//                                updatedStudent.setAddress(address);
+//                                adapterSv.notifyDataSetChanged();
+//                            }
+//                        }
                     }
                 });
 
@@ -130,7 +145,12 @@ public class Activity_DSSV extends AppCompatActivity {
             btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+//                    Intent intent = new Intent(activity, UpdateStudent.class);
+//                    intent.putExtra("name", listsv.getName());
+//                    intent.putExtra("address", listsv.getAddress());
+//                    intent.putExtra("branch", listsv.getBranch());
+//                    intent.putExtra("position", i);
+//                    getData.launch(intent);
                 }
             });
 

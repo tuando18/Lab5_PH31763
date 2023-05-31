@@ -60,6 +60,8 @@ public class Activity_Register extends AppCompatActivity {
 
 //                    getData.launch(intent);
                     startActivity(intent);
+
+                    Toast.makeText(Activity_Register.this, "Đăng kí thành công", Toast.LENGTH_SHORT).show();
                 }
             }
         });
