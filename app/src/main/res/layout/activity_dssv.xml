@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fad390"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".Activity_DSSV">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textviewshape"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/txt_dssv"
+        android:textSize="32sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_view"
+        android:text="@string/txt_them"
+        android:textColor="@color/white" />
+
+    <ListView
+        android:id="@+id/lv_sv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:divider="#FF5722"
+        android:dividerHeight="1dp"
+        android:listSelector="#ffbe76" />
+
+</LinearLayout>
