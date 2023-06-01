@@ -2,8 +2,8 @@ package com.dovantuan.lab5_ph31763;
 
 public class School {
 
-    private String name;
-    private int iconId;
+    public String name;
+    public int iconId;
 
     public School(String name, int iconId) {
         this.name = name;

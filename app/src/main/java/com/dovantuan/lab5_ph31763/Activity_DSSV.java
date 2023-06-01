@@ -25,7 +25,9 @@ import java.util.ArrayList;
 
 public class Activity_DSSV extends AppCompatActivity {
 
-    ArrayList<ListDssv> listSv;
+
+    ListView lvdssv;
+    ArrayList<ListDssv> listSv = new ArrayList<>();
     AdapterDSSV adapterSv;
 
     @Override
@@ -38,36 +40,19 @@ public class Activity_DSSV extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == 1) {
-                            Intent intent = result.getData();
-                            Bundle bundle = intent.getExtras();
-                            String name = bundle.getString("name");
-                            String address = bundle.getString("address");
-                            String branch = bundle.getString("branch");
-                            listSv.add(new ListDssv(branch, name, address));
-                            adapterSv.notifyDataSetChanged();
+                        if (result.getResultCode() == RESULT_OK) {
+                            Intent i = result.getData();
+                            Bundle b = i.getExtras();
+                            String cs = b.getString(AddStudent.KEY_COSO);
+                            String ten = b.getString(AddStudent.KEY_TEN_SV);
+                            String dc = b.getString(AddStudent.KEY_DIA_CHI);
+                            listSv.add(new ListDssv(cs, ten, dc));
+                            fill();
                         }
-//                        if (result.getResultCode() == Activity.RESULT_OK) {
-//                            Intent intent = result.getData();
-//                            Bundle bundle = intent.getExtras();
-//                            String name = bundle.getString("name");
-//                            String address = bundle.getString("address");
-//                            String branch = bundle.getString("branch");
-//                            int position = bundle.getInt("position", -1);
-//                            if (position != -1) {
-//                                ListDssv updatedStudent = listSv.get(position);
-//                                updatedStudent.setBranch(branch);
-//                                updatedStudent.setName(name);
-//                                updatedStudent.setAddress(address);
-//                                adapterSv.notifyDataSetChanged();
-//                            }
-//                        }
                     }
                 });
 
-        ListView lvdssv = findViewById(R.id.lv_sv);
-
-        listSv = new ArrayList<>();
+        lvdssv = findViewById(R.id.lv_sv);
 
         // Khởi tạo dữ liệu danh sách
         listSv.add(new ListDssv("FPoly Hà Nội", "Nguyễn Văn Tuấn", "Bắc Ninh"));
@@ -75,10 +60,7 @@ public class Activity_DSSV extends AppCompatActivity {
         listSv.add(new ListDssv("FPoly Đà Nẵng", "Nguyễn Công Thưởng", "Nha Trang"));
         listSv.add(new ListDssv("FPoly Tây Nguyên", "Nguyễn Vinh Tài", "Đắk Lắk"));
         listSv.add(new ListDssv("FPoly Cần Thơ", "Cấn Gia Khiêm", "Kiên Giang"));
-
-        adapterSv = new AdapterDSSV(this, listSv);
-
-        lvdssv.setAdapter(adapterSv);
+        fill();
 
         Button btn_add = findViewById(R.id.btn_add);
         btn_add.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +70,53 @@ public class Activity_DSSV extends AppCompatActivity {
                 getData.launch(intent);
             }
         });
+    }
+
+    public void fill() {
+        AdapterDSSV adapterSv = new AdapterDSSV(Activity_DSSV.this, listSv);
+        lvdssv.setAdapter(adapterSv);
+    }
+
+    public void deleteSV(int index) {
+        listSv.remove(index);
+        fill();
+    }
+
+    public static final String KEY_SV_MODEL = "sv_model";
+
+    ActivityResultLauncher<Intent> goToEditSV = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent i = result.getData();
+                        Bundle b = i.getExtras();
+                        String cs = b.getString(AddStudent.KEY_COSO);
+                        //Log.d("coso", "nhan " + cs);
+                        String ten = b.getString(AddStudent.KEY_TEN_SV);
+                        String dc = b.getString(AddStudent.KEY_DIA_CHI);
+
+                        svModel.name = ten;
+                        svModel.address = dc;
+                        svModel.branch = cs;
+
+                        fill();
+                    }
+                }
+            }
+    );
+
+    private ListDssv svModel;
+
+    public void updateSV(int position) {
+
+        Intent intent = new Intent(Activity_DSSV.this, AddStudent.class);
+
+        svModel = listSv.get(position);
+        intent.putExtra(KEY_SV_MODEL, svModel);
+
+        goToEditSV.launch(intent);
     }
 
     private class AdapterDSSV extends BaseAdapter {
@@ -135,8 +164,7 @@ public class Activity_DSSV extends AppCompatActivity {
             btnRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listSv.remove(i);
-                    adapterSv.notifyDataSetChanged();
+                    ((Activity_DSSV)activity).deleteSV(i);
                     Toast.makeText(activity, "Đã xóa thành công!", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -145,12 +173,8 @@ public class Activity_DSSV extends AppCompatActivity {
             btnUpdate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(activity, UpdateStudent.class);
-//                    intent.putExtra("name", listsv.getName());
-//                    intent.putExtra("address", listsv.getAddress());
-//                    intent.putExtra("branch", listsv.getBranch());
-//                    intent.putExtra("position", i);
-//                    getData.launch(intent);
+                    ((Activity_DSSV)activity).updateSV(i);
+                    Toast.makeText(activity, "Update thành công!", Toast.LENGTH_SHORT).show();
                 }
             });
 

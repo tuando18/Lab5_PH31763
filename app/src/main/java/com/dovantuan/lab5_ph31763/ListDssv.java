@@ -1,13 +1,13 @@
 package com.dovantuan.lab5_ph31763;
 
-public class ListDssv {
+import java.io.Serializable;
 
-    private String branch;
-    private String name;
-    private String address;
+public class ListDssv implements Serializable {
 
-    public ListDssv() {
-    }
+    public String branch;
+
+    public String name;
+    public String address;
 
     public ListDssv(String branch, String name, String address) {
         this.branch = branch;
